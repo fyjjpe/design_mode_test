@@ -1,0 +1,23 @@
+package m13_Chain_of_Responsibility.demo1;
+
+/**
+ * Created by yuanjie.fang on 2018/1/24.
+ */
+public class DeptManager extends Handler {
+    public String handleFeeRequest(String user, double fee) {
+        String str = "";
+        if (fee < 1000) {
+            if ("张三".equals(user)) {
+                str = "成功：部门经理同意【" + user + "】的聚餐费用，金额为" + fee + "元";
+            } else {
+                str = "失败：部门经理不同意【" + user + "】的聚餐费用，金额为" + fee + "元";
+            }
+        } else {
+            //超过1000，继续传递给级别更高的人处理
+            if (getSuccessor() != null) {
+                return getSuccessor().handleFeeRequest(user, fee);
+            }
+        }
+        return str;
+    }
+}
